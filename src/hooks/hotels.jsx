@@ -17,7 +17,7 @@ export default function useHotels({ query, city, priceSort, ratingSort, debounce
       if (ratingSort) params.append("ratingSort", ratingSort);
 
       try {
-        const res = await fetch(`http://127.0.0.1:5000/api/hotels?${params.toString()}`, {
+        const res = await fetch(`https://turist-1.onrender.com/api/hotels?${params.toString()}`, {
           signal: controller.signal
         });
         const data = await res.json();

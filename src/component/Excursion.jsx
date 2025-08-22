@@ -50,7 +50,7 @@ export default function ExcursionWithNavbar() {
   const [priceSort, setPriceSort] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/excursions")
+    fetch("https://turist-1.onrender.com/api/excursions")
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Fetch all hotels error:", err));
@@ -61,7 +61,7 @@ export default function ExcursionWithNavbar() {
       if (query.trim() !== "") {
         setLoading(true);
         fetch(
-          `http://127.0.0.1:5000/api/excursions?query=${encodeURIComponent(query)}`
+          `https://turist-1.onrender.com/api/excursions?query=${encodeURIComponent(query)}`
         )
           .then((res) => res.json())
           .then((data) => {
@@ -198,7 +198,7 @@ export default function ExcursionWithNavbar() {
               const name = hotel[`name_${language}`] || hotel.name || "";
               const cityName = hotel.city ? hotel.city[`name_${language}`] : "";
               const imageSrc = hotel.image
-                ? `http://127.0.0.1:5000/static/uploads/${hotel.image}`
+                ? `https://turist-1.onrender.com/static/uploads/${hotel.image}`
                 : "";
               return (
                 <Link key={hotel.id} to={`/excursions/${hotel.id}`} >

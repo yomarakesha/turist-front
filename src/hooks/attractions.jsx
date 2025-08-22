@@ -6,7 +6,7 @@ const useAttraction = () => {
  
  useEffect(() => {
     setLoading(true)
-      fetch('http://127.0.0.1:5000/api/attractions') // Flask API endpoint
+      fetch('https://turist-1.onrender.com/api/attractions') // Flask API endpoint
         .then((response) => response.json())
         .then((data) => {setAttraction(data) ;
             setLoading(false)

@@ -24,7 +24,7 @@ export default function HotelInfo() {
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/api/excursions/${id}`)
+    fetch(`https://turist-1.onrender.com/api/excursions/${id}`)
       .then((res) => res.json())
       .then((data) => setHotel(data))
       .catch((err) => console.error("Error loading hotel:", err));
@@ -92,7 +92,7 @@ export default function HotelInfo() {
         <p className="text-gray-500 text-sm mb-4">{cityName}</p>
 
         <img
-          src={`http://127.0.0.1:5000/static/uploads/${hotel.image}`}
+          src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`}
           alt={name}
           className="w-full h-72 object-cover rounded-md mb-4"
         />

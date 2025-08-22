@@ -51,7 +51,7 @@ export default function HotelWithNavbar() {
   const [ratingSort, setRatingSort] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/hotels")
+    fetch("https://turist-1.onrender.com/api/hotels")
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Fetch all hotels error:", err));
@@ -62,7 +62,7 @@ export default function HotelWithNavbar() {
       if (query.trim() !== "") {
         setLoading(true);
         fetch(
-          `http://127.0.0.1:5000/api/hotels?query=${encodeURIComponent(query)}`
+          `https://turist-1.onrender.com/api/hotels?query=${encodeURIComponent(query)}`
         )
           .then((res) => res.json())
           .then((data) => {
@@ -216,7 +216,7 @@ export default function HotelWithNavbar() {
     const name = hotel[`name_${language}`] || hotel.name || "";
     const cityName = hotel.city ? hotel.city[`name_${language}`] : "";
     const imageSrc = hotel.image
-      ? `http://127.0.0.1:5000/static/uploads/${hotel.image}`
+      ? `https://turist-1.onrender.com/static/uploads/${hotel.image}`
       : "";
 
     return (

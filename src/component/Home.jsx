@@ -39,19 +39,19 @@ export default function Home() {
   const [loadingExcursions, setLoadingExcursions] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/banners")
+    fetch("https://turist-1.onrender.com/api/banners")
       .then((res) => res.json())
       .then((data) => setBanner(data))
       .catch(console.error)
       .finally(() => setLoadingBanner(false));
 
-    fetch("http://127.0.0.1:5000/api/hotels")
+    fetch("https://turist-1.onrender.com/api/hotels")
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch(console.error)
       .finally(() => setLoadingHotels(false));
 
-    fetch("http://127.0.0.1:5000/api/excursions")
+    fetch("https://turist-1.onrender.com/api/excursions")
       .then((res) => res.json())
       .then((data) => setExcursions(data))
       .catch(console.error)
@@ -199,7 +199,7 @@ export default function Home() {
                 <section className="text-center pt-6 px-4">
                   <div className="relative">
                     <img
-                      src={`http://127.0.0.1:5000/static/uploads/${banners.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${banners.image}`}
                       alt="banner"
                       className="w-full rounded-md"
                     />
@@ -235,7 +235,7 @@ export default function Home() {
                     className="relative rounded-xl overflow-hidden shadow-lg"
                   >
                     <img
-                      src={`http://127.0.0.1:5000/static/uploads/${hotel.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`}
                       alt={hotel.name}
                       className="w-full h-56 object-cover"
                     />
@@ -275,7 +275,7 @@ export default function Home() {
                     className="relative rounded-xl overflow-hidden shadow-lg"
                   >
                     <img
-                      src={`http://127.0.0.1:5000/static/uploads/${excursion.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${excursion.image}`}
                       alt={excursion.name}
                       className="w-full h-56 object-cover"
                     />
