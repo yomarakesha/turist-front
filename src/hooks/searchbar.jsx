@@ -6,7 +6,7 @@ const useSearch = () => {
  
  useEffect(() => {
     setLoading(true)
-      fetch('http://localhost:5000/api/search?q=${query}') // Flask API endpoint
+      fetch('https://turist-1.onrender.com/api/search?q=${query}') // Flask API endpoint
         .then((response) => response.json())
         .then((data) => {setSearch(data) ;
             setLoading(false)
