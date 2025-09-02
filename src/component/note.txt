@@ -1,556 +1,115 @@
-      <section className="text-center mt-6 px-4">
-        <div className="relative">
-          <img src={banner} alt="banner" className="w-full rounded-md" />
-          <div className="absolute top-6 sm:top-10 left-4 sm:left-10 text-white text-left w-2/3 sm:w-auto">
-            <h2 className="text-lg sm:text-2xl font-bold">
-              НАСТРАИВАЙСЯ. ЛЕТО ЖДЕТ!
-            </h2>
-            <p className="text-sm sm:text-xl mt-2">
-              Скидка до 35% на проживание
-            </p>
-            <button className="mt-4 bg-green-500 px-4 py-2 rounded text-white">
-              ЗАБРОНИРОВАНО
-            </button>
-          </div>
-        </div>
-      </section>
-
-
-
-
-
-<div key={excursion.id || excursion.name || excursion.image}>
-                          <div className="grid gap-1 ">
-                            <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col md:flex-row">
-                              <img
-                                src={`http://127.0.0.1:5000/static/uploads/${excursion.image}`}
-                                className="w-full md:w-48 h-48 object-cover"
-                                alt={excursion.description || "Excursion image"}
-                              />
-                              <div className="p-4">
-                                <h3 className="font-semibold text-lg text-blue-800 mb-2">
-                                  {excursion.name || "Excursion Title"}
-                                </h3>
-                                <p className="text-sm text-gray-700">
-                                  {excursion.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-
-
-
-      src={`http://127.0.0.1:5000/static/uploads/${excursion.image}`}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      className="max-w-6xl mx-auto p-6 space-y-6"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useBanner from "./../hooks/banner";
-import useExcursions from "../hooks/excursions";
-import useHotels from "../hooks/hotels";
+import Navbar from "./NavBar";
+import { useHotels } from "../hooks/hotels";
 import bgImage from "./../assets/bg1.jpg";
-import inst from "./../assets/img/instagram.png";
-import tg from "./../assets/img/telegram.png";
-import mail from "./../assets/img/gmail.png";
-import phone from "./../assets/img/whatsapp.png";
+import bgImage1 from "./../assets/hotel.svg";
 
-export default function Home() {
+export default function HotelWithNavbar() {
   const { t } = useTranslation();
-
-  const { banner, loading: loadingBanner } = useBanner();
-  const { excursions, loading: loadingExcursions } = useExcursions();
-  const { hotels, loading: loadingHotels } = useHotels();
+  const {
+    menuOpen,
+    toggleMenu,
+    language,
+    changeLanguage,
+    query,
+    setQuery,
+    displayedHotels,
+    loading,
+    cities,
+    cityFilter,
+    setCityFilter,
+    priceSort,
+    setPriceSort,
+    ratingSort,
+    setRatingSort,
+  } = useHotels();
 
   return (
     <div
+      className="min-h-screen font-sans"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="min-h-screen font-sans"
     >
-      <div className="container mx-auto">
-        {/* Search Bar */}
-        <section className="flex flex-row items-center pt-4 gap-2 justify-center px-4">
+      {/* ✅ Navbar вынесен */}
+      <Navbar
+        menuOpen={menuOpen}
+        toggleMenu={toggleMenu}
+        language={language}
+        changeLanguage={changeLanguage}
+      />
+
+      <div className="container mx-auto p-6">
+        {/* ✅ Search & Filters */}
+        <div className="bg-white/80 p-4 rounded-xl shadow-md mb-6 flex flex-col md:flex-row gap-4">
           <input
             type="text"
-            placeholder={t("search") || "Поиск"}
-            className="border px-4 py-2 w-3/4 sm:w-1/2 rounded-md"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("searchHotels")}
+            className="flex-1 border rounded-lg px-3 py-2"
           />
-          <button className="bg-orange-400 text-white px-6 py-2 rounded-md w-1/4 sm:w-auto">
-            {t("searchBtn") || "Искать"}
-          </button>
-        </section>
 
-        {/* Banner */}
-        {loadingBanner ? (
-          <p>Loading...</p>
+          <select
+            value={cityFilter}
+            onChange={(e) => setCityFilter(e.target.value)}
+            className="border rounded-lg px-3 py-2"
+          >
+            <option value="">{t("allCities")}</option>
+            {cities.map((city) => (
+              <option key={city.id} value={city.id}>
+                {city[`name_${language}`]}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={priceSort}
+            onChange={(e) => setPriceSort(e.target.value)}
+            className="border rounded-lg px-3 py-2"
+          >
+            <option value="">{t("sortByPrice")}</option>
+            <option value="asc">{t("lowToHigh")}</option>
+            <option value="desc">{t("highToLow")}</option>
+          </select>
+
+          <select
+            value={ratingSort}
+            onChange={(e) => setRatingSort(e.target.value)}
+            className="border rounded-lg px-3 py-2"
+          >
+            <option value="">{t("sortByRating")}</option>
+            <option value="asc">{t("lowToHigh")}</option>
+            <option value="desc">{t("highToLow")}</option>
+          </select>
+        </div>
+
+        {/* ✅ Hotels Grid */}
+        {loading ? (
+          <p className="text-center">{t("loading")}</p>
         ) : (
-          banner.map((banners) => (
-            <div key={banners.id}>
-              <section className="text-center pt-6 px-4">
-                <div className="relative">
-                  <img
-                    src={`http://127.0.0.1:5000/static/uploads/${banners.image}`}
-                    alt="banner"
-                    className="w-full rounded-md"
-                  />
-                  <div className="absolute top-6 sm:top-10 left-4 sm:left-10 text-white text-left w-2/3 sm:w-auto">
-                    <h2 className="text-lg sm:text-2xl font-bold">
-                      НАСТРАИВАЙСЯ. ЛЕТО ЖДЕТ!
-                    </h2>
-                    <p className="text-sm sm:text-xl mt-2">
-                      Скидка до 35% на проживание
-                    </p>
-                    <button className="mt-4 bg-green-500 px-4 py-2 rounded text-white">
-                      ЗАБРОНИРОВАТЬ
-                    </button>
-                  </div>
-                </div>
-              </section>
-            </div>
-          ))
-        )}
-
-        {/* Hotels */}
-        <section className="mt-8 px-4">
-          <h2 className="text-3xl font-bold my-6 text-center">{t("hotels") || "Отели"}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {loadingHotels ? (
-              <p>Loading...</p>
-            ) : (
-              hotels.slice(0, 6).map((hotel) => (
-                <div
-                  key={hotel.id}
-                  className="relative rounded-xl overflow-hidden shadow-lg"
-                >
-                  <img
-                    src={`http://127.0.0.1:5000/static/uploads/${hotel.image}`}
-                    alt={hotel.name}
-                    className="w-full h-56 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-700/60 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3 text-white font-bold drop-shadow">
-                    <p className="text-lg">{hotel.name}</p>
-                    <p className="text-md font-semibold">
-                      {hotel.price} TMT
-                    </p>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-          <div className="text-center mt-4">
-            <Link to="/hotels" className="text-blue-500 underline">
-              {t("showMore") || "Показать больше"}
-            </Link>
-          </div>
-        </section>
-
-        {/* Excursions */}
-        <section className="mt-10 px-4">
-          <h2 className="text-2xl font-bold my-6 text-center">
-            Лучшие достопримечательности для отдыха
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {loadingExcursions ? (
-              <p>Loading...</p>
-            ) : (
-              excursions.slice(0, 6).map((excursion) => (
-                <div
-                  key={excursion.id}
-                  className="relative rounded-xl overflow-hidden shadow-lg"
-                >
-                  <img
-                    src={`http://127.0.0.1:5000/static/uploads/${excursion.image}`}
-                    alt={excursion.name}
-                    className="w-full h-56 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-700/60 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3 text-white font-bold drop-shadow">
-                    <p className="text-lg">{excursion.name}</p>
-                    <p className="text-md font-semibold">
-                      {excursion.price} TMT
-                    </p>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-          <div className="text-center mt-4">
-            <Link to="/excursion" className="text-blue-500 underline">
-              {t("showMore") || "Показать больше"}
-            </Link>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section className="mt-10 px-4 pb-10">
-          <h2 className="text-xl font-bold mb-4 text-center my-6 ">
-            Контакт
-          </h2>
-          <div className="w-full border-2 border-blue-400 bg-white shadow-md rounded-md px-12 py-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Contact Info */}
-              <div className="space-y-4 text-sm">
-                <div className="flex items-center space-x-2">
-                  <img src={mail} alt="email" className="w-9 h-9" />
-                  <p>example@gmail.com</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={phone} alt="phone" className="w-9 h-9" />
-                  <p>+993xxxxxxx</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={tg} alt="telegram" className="w-9 h-9" />
-                  <p>t.me/example</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={inst} alt="instagram" className="w-10 h-10" />
-                  <p>@example</p>
-                </div>
-              </div>
-              {/* Contact Form */}
-              <form className="space-y-3">
-                <input
-                  type="text"
-                  placeholder="Имя"
-                  className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-                />
-                <input
-                  type="email"
-                  placeholder="Почта"
-                  className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-                />
-                <textarea
-                  placeholder="Комментарий"
-                  className="w-full border px-3 py-2 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  rows="4"
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Отправить
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
-
-// Assets
-import logo from "./../assets/logotip.svg";
-import bgImage from "./../assets/bg1.jpg";
-import bgImage1 from "./../assets/excursion.png";
-
-// i18n initialization
-i18n.use(initReactI18next).init({
-  resources: {
-    ru: {
-      translation: {
-        siteName: "Название сайта",
-        home: "Главная",
-        hotels: "Отели",
-        excursions: "Экскурсии",
-        contacts: "Контакты",
-        login: "Вход",
-        tour: "Подберите мне тур",
-        attractions: "Достопримечательности",
-        searchHotels: "Поиск отелей...",
-        allCities: "Все города",
-        sortByPrice: "Сортировать по цене",
-        lowToHigh: "От дешевых к дорогим",
-        highToLow: "От дорогих к дешевым",
-        sortByRating: "Сортировать по рейтингу",
-        highToLowRating: "От высокого к низкому",
-        lowToHighRating: "От низкого к высокому",
-        recommended: "Рекомендуется",
-        reviews: "отзывов",
-        from: "От",
-        priceForTwo: "Цена за двоих",
-        details: "Подробнее",
-        loading: "Загрузка..."
-      },
-    },
-    en: {
-      translation: {
-        siteName: "Site Name",
-        home: "Home",
-        hotels: "Hotels",
-        excursions: "Excursions",
-        contacts: "Contacts",
-        login: "Login",
-        tour: "Pick me a tour",
-        attractions: "Attractions",
-        searchHotels: "Search hotels...",
-        allCities: "All cities",
-        sortByPrice: "Sort by price",
-        lowToHigh: "Low to High",
-        highToLow: "High to Low",
-        sortByRating: "Sort by rating",
-        highToLowRating: "High to Low",
-        lowToHighRating: "Low to High",
-        recommended: "Recommended",
-        reviews: "reviews",
-        from: "From",
-        priceForTwo: "Price for two",
-        details: "Details",
-        loading: "Loading..."
-      },
-    },
-  },
-  lng: "ru",
-  fallbackLng: "ru",
-  interpolation: { escapeValue: false },
-});
-
-export default function AttractionWithNavbar() {
-  const { t } = useTranslation();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [language, setLanguage] = useState(i18n.language);
-
-  const changeLanguage = (e) => {
-    const lang = e.target.value;
-    setLanguage(lang);
-    i18n.changeLanguage(lang);
-  };
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
-  // Excursions state
-  const [excursions, setExcursions] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("http://127.0.0.1:5000/api/excursions")
-      .then((res) => res.json())
-      .then((data) => {
-        setExcursions(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Fetch excursions error:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  return (
-    <div
-      className="min-h-screen font-sans"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Navbar */}
-      <header className="bg-white shadow-md px-4 py-3">
-        <div className="flex justify-between container mx-auto items-center">
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="logo" className="w-12 h-12" />
-            <h1 className="text-lg font-bold">{t("siteName")}</h1>
-          </div>
-          <nav className="hidden sm:flex gap-6 text-blue-600 items-center">
-            <NavLink to="/">{t("home")}</NavLink>
-            <NavLink to="/hotels">{t("hotels")}</NavLink>
-            <NavLink to="/excursion">{t("excursions")}</NavLink>
-            <NavLink to="/attraction">{t("attractions")}</NavLink>
-            <NavLink to="/contact">{t("contacts")}</NavLink>
-            <button className="bg-orange-400 text-white px-3 py-1 rounded">
-              {t("tour")}
-            </button>
-            <div className="flex items-center space-x-3">
-              <select
-                value={language}
-                onChange={changeLanguage}
-                className="border rounded p-2"
-              >
-                <option value="en">English</option>
-                <option value="ru">Русский</option>
-              </select>
-            </div>
-          </nav>
-          <button onClick={toggleMenu} className="sm:hidden">
-            {menuOpen ? "✖" : "☰"}
-          </button>
-        </div>
-        {menuOpen && (
-          <div className="mt-4 flex flex-col items-start gap-4 sm:hidden">
-            <NavLink to="/">{t("home")}</NavLink>
-            <NavLink to="/hotels">{t("hotels")}</NavLink>
-            <NavLink to="/excursion">{t("excursions")}</NavLink>
-            <NavLink to="/attraction">{t("attractions")}</NavLink>
-            <NavLink to="/contact">{t("contacts")}</NavLink>
-            <button className="bg-orange-400 text-white px-3 py-1 rounded">
-              {t("tour")}
-            </button>
-            <div className="flex items-center space-x-3">
-              <select
-                value={language}
-                onChange={changeLanguage}
-                className="border rounded p-2"
-              >
-                <option value="en">English</option>
-                <option value="ru">Русский</option>
-              </select>
-            </div>
-          </div>
-        )}
-      </header>
-
-      {/* Excursions Section */}
-      <div
-        className="w-full h-40 items-center brightness-95"
-        style={{
-          backgroundImage: `url(${bgImage1})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="max-w-6xl mx-auto p-6 space-y-6">
-          <h2 className="text-3xl font-bold text-center text-white">
-            {t("attractions")}
-          </h2>
-        </div>
-      </div>
-
-      <div className="max-w-5xl mx-auto p-6 space-y-8">
-        {loading && (
-          <p className="text-center text-gray-600 text-lg">{t("loading")}</p>
-        )}
-
-        {excursions.map((item) => {
-          const name = item[`name_${language}`] || item.name || "";
-          const description =
-            item[`description_${language}`] || item.description || "";
-          const imageSrc = item.image
-            ? `http://127.0.0.1:5000/static/uploads/${item.image}`
-            : "";
-
-          return (
-            <div
-              key={item.id}
-              className="flex flex-col sm:flex-row bg-white shadow-md rounded-lg overflow-hidden"
-            >
-              {/* Image */}
-              {imageSrc && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {displayedHotels.map((hotel) => (
+              <div key={hotel.id} className="bg-white shadow rounded-xl p-4">
                 <img
-                  src={imageSrc}
-                  alt={name}
-                  className="w-full sm:w-1/3 h-48 sm:h-auto object-cover"
+                  src={hotel.image || bgImage1}
+                  alt={hotel[`name_${language}`] || hotel.name}
+                  className="w-full h-48 object-cover rounded-lg mb-3"
                 />
-              )}
-
-              {/* Content */}
-              <div className="p-4 sm:w-2/3">
-                <h3 className="text-lg font-bold text-sky-600 mb-2">{name}</h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {description}
+                <h3 className="text-lg font-bold">
+                  {hotel[`name_${language}`] || hotel.name}
+                </h3>
+                <p className="text-gray-600">
+                  {hotel.city?.[`name_${language}`]}
                 </p>
+                <p className="font-semibold">{hotel.price} $</p>
+                <p className="text-yellow-500">⭐ {hotel.rating}</p>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

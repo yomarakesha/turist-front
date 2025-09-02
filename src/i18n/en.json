@@ -1,0 +1,32 @@
+{
+  "home": "Home",
+  "hotels": "Hotels",
+  "excursions": "Excursions",
+  "contacts": "Contacts",
+  "attractions": "Attractions",
+  "search": "Search...",
+  "allCities": "All cities",
+  "sortByPrice": "Sort by price",
+  "lowToHigh": "Low to High",
+  "highToLow": "High to Low",
+  "sortByRating": "Sort by rating",
+  "highToLowRating": "High to Low",
+  "lowToHighRating": "Low to High",
+  "recommended": "Recommended",
+  "reviews": "reviews",
+  "from": "From",
+  "priceForTwo": "Price for two",
+  "details": "Details",
+  "loading": "Loading...",
+
+  "contactTitle": "Contacts",
+  "contactDesc": "For questions related to e-services, you can call the number below and get assistance.",
+  "contactSchedule": "Support service hours:",
+  "contactTime": "Monday to Saturday: from 8:00 to 22:00",
+
+  "allTypes": "All types",
+  "showMore": "Show more",
+  "contact": "Contact",
+  "excursion": "Best Attractions for Vacation",
+  "tour":"Pick me tour"
+}

@@ -1,39 +1,95 @@
-// src/hooks/hotels.js
 import { useState, useEffect } from "react";
+import i18n from "../i18n";
 
-export default function useHotels({ query, city, priceSort, ratingSort, debounceMs = 400 }) {
+export function useHotels() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [language, setLanguage] = useState(i18n.language);
+
   const [hotels, setHotels] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cityFilter, setCityFilter] = useState("");
+  const [priceSort, setPriceSort] = useState("");
+  const [ratingSort, setRatingSort] = useState("");
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const changeLanguage = (e) => {
+    const lang = e.target.value;
+    setLanguage(lang);
+    i18n.changeLanguage(lang);
+  };
 
   useEffect(() => {
-    const controller = new AbortController();
-    const timeout = setTimeout(async () => {
-      setLoading(true);
+    fetch("https://turist.onrender.com/api/hotels")
+      .then((res) => res.json())
+      .then((data) => setHotels(data))
+      .catch((err) => console.error("Fetch all hotels error:", err));
+  }, []);
 
-      const params = new URLSearchParams();
-      if (query) params.append("search", query);
-      if (city) params.append("city", city);
-      if (priceSort) params.append("priceSort", priceSort);
-      if (ratingSort) params.append("ratingSort", ratingSort);
-
-      try {
-        const res = await fetch(`http://127.0.0.1:5000/api/hotels?${params.toString()}`, {
-          signal: controller.signal
-        });
-        const data = await res.json();
-        setHotels(Array.isArray(data) ? data : []);
-      } catch (err) {
-        if (err.name !== "AbortError") console.error(err);
-      } finally {
-        setLoading(false);
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (query.trim() !== "") {
+        setLoading(true);
+        fetch(`https://turist.onrender.com/api/hotels?query=${encodeURIComponent(query)}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setSearchResults(data);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error("Hotel search error:", err);
+            setLoading(false);
+          });
+      } else {
+        setSearchResults([]);
       }
-    }, debounceMs);
+    }, 400);
 
-    return () => {
-      controller.abort();
-      clearTimeout(timeout);
-    };
-  }, [query, city, priceSort, ratingSort, debounceMs]);
+    return () => clearTimeout(delayDebounce);
+  }, [query]);
 
-  return { hotels, loading };
+  // Фильтры и сортировки
+  let displayedHotels = query.trim() === "" ? hotels : searchResults;
+
+  if (cityFilter) {
+    displayedHotels = displayedHotels.filter(
+      (hotel) => String(hotel.city.id) === cityFilter
+    );
+  }
+
+  if (priceSort) {
+    displayedHotels = [...displayedHotels].sort((a, b) =>
+      priceSort === "low-high" ? a.price - b.price : b.price - a.price
+    );
+  }
+
+  if (ratingSort) {
+    displayedHotels = [...displayedHotels].sort((a, b) =>
+      ratingSort === "high-low" ? b.rating - a.rating : a.rating - b.rating
+    );
+  }
+
+  const cities = [...new Map(hotels.map((hotel) => [hotel.city.id, hotel.city])).values()];
+
+  return {
+    menuOpen,
+    toggleMenu,
+    language,
+    changeLanguage,
+    hotels,
+    searchResults,
+    query,
+    setQuery,
+    loading,
+    cityFilter,
+    setCityFilter,
+    priceSort,
+    setPriceSort,
+    ratingSort,
+    setRatingSort,
+    displayedHotels,
+    cities,
+  };
 }
