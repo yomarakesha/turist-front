@@ -21,13 +21,13 @@ export default function Home() {
   const { t } = useTranslation();
 
   const { data: banner, loading: loadingBanner } = useFetch(
-    "https://turist.onrender.com/api/banners"
+    "https://turist-1.onrender.com/api/banners"
   );
   const { data: hotels, loading: loadingHotels } = useFetch(
-    "https://turist.onrender.com/api/hotels"
+    "https://turist-1.onrender.com/api/hotels"
   );
   const { data: excursions, loading: loadingExcursions } = useFetch(
-    "https://turist.onrender.com/api/excursions"
+    "https://turist-1.onrender.com/api/excursions"
   );
 
 const onSubmit = async (event) => {
@@ -36,7 +36,7 @@ const onSubmit = async (event) => {
   const formData = new FormData(event.target);
 
   try {
-    const response = await fetch("https://turist.onrender.com/api/contact", {
+    const response = await fetch("https://turist-1.onrender.com/api/contact", {
       method: "POST",
       body: formData, // No JSON.stringify, no headers
     });
@@ -84,7 +84,7 @@ const onSubmit = async (event) => {
                 <section className="text-center pt-6 px-4">
                   <div className="relative">
                     <img
-                      src={`https://turist.onrender.com/static/uploads/${b.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${b.image}`}
                       alt="banner"
                       className="w-full rounded-md"
                     />
@@ -110,14 +110,14 @@ const onSubmit = async (event) => {
                 <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
                   <div className="relative rounded-xl overflow-hidden shadow-lg">
                     <img
-                      src={`https://turist.onrender.com/static/uploads/${hotel.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`}
                       alt={hotel.name}
                       className="w-full h-56 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-cyan-700/60 to-transparent"></div>
                     <div className="absolute bottom-3 left-3 text-white font-bold drop-shadow">
                       <p className="text-lg">{hotel.name_en}</p>
-                      <p className="text-md font-semibold">{hotel.price} TMT</p>
+                      <p className="text-md font-semibold"></p>
                     </div>
                   </div>
                 </Link>
@@ -147,7 +147,7 @@ const onSubmit = async (event) => {
                 <Link key={exc.id} to={`/excursions/${exc.id}`}>
                   <div className="relative rounded-xl overflow-hidden shadow-lg">
                     <img
-                      src={`https://turist.onrender.com/static/uploads/${exc.image}`}
+                      src={`https://turist-1.onrender.com/static/uploads/${exc.image}`}
                       alt={exc.name}
                       className="w-full h-56 object-cover"
                     />

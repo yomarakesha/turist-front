@@ -9,7 +9,7 @@ export function useAttractions() {
   const [typeFilter, setTypeFilter] = useState("");
 
   useEffect(() => {
-    fetch("https://turist.onrender.com/api/attractions")
+    fetch("https://turist-1.onrender.com/api/api/attractions")
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Fetch attractions error:", err));
@@ -19,7 +19,7 @@ export function useAttractions() {
     const delayDebounce = setTimeout(() => {
       if (query.trim() !== "") {
         setLoading(true);
-        fetch(`https://turist.onrender.com/api/attractions?query=${encodeURIComponent(query)}`)
+        fetch(`https://turist-1.onrender.com/api/attractions?query=${encodeURIComponent(query)}`)
           .then((res) => res.json())
           .then((data) => {
             setSearchResults(data);

@@ -6,7 +6,7 @@ const useContacts = () => {
  
  useEffect(() => {
     setLoading(true)
-      fetch('https://turist.onrender.com/api/contact') // Flask API endpoint
+      fetch('https://turist-1.onrender.com/api/contact') // Flask API endpoint
         .then((response) => response.json())
         .then((data) => {setContacts(data) ;
             setLoading(false)

@@ -34,8 +34,6 @@ export default function HotelWithNavbar() {
     cities,
     cityFilter,
     setCityFilter,
-    priceSort,
-    setPriceSort,
     ratingSort,
     setRatingSort,
   } = useHotels();
@@ -87,16 +85,6 @@ export default function HotelWithNavbar() {
               </select>
 
               <select
-                value={priceSort}
-                onChange={(e) => setPriceSort(e.target.value)}
-                className="border px-2 py-2 rounded-md w-full sm:w-auto"
-              >
-                <option value="">{t("sortByPrice")}</option>
-                <option value="low-high">{t("lowToHigh")}</option>
-                <option value="high-low">{t("highToLow")}</option>
-              </select>
-
-              <select
                 value={ratingSort}
                 onChange={(e) => setRatingSort(e.target.value)}
                 className="border px-2 py-2 rounded-md w-full sm:w-auto"
@@ -118,7 +106,7 @@ export default function HotelWithNavbar() {
               const name = hotel[`name_${language}`] || hotel.name || "";
               const cityName = hotel.city ? hotel.city[`name_${language}`] : "";
               const imageSrc = hotel.image
-                ? `https://turist.onrender.com/static/uploads/${hotel.image}`
+                ? `https://turist-1.onrender.com/static/uploads/${hotel.image}`
                 : "";
 
               return (
@@ -155,7 +143,7 @@ export default function HotelWithNavbar() {
                         </span>
                       </div>
                       <p className="text-orange-500 font-semibold text-lg">
-                        {t("from")} {hotel.price} тмт
+                       {t("callus")}
                       </p>
                       <p className="text-xs text-gray-500">{t("priceForTwo")}</p>
                       <button className="mt-2 w-full px-4 py-2 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition">

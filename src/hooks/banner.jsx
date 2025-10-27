@@ -6,7 +6,7 @@ const useBanner = () => {
  
  useEffect(() => {
     setLoading(true)
-      fetch('https://turist.onrender.com/api/banners') // Flask API endpoint
+      fetch('https://turist-1.onrender.com/api/banners') // Flask API endpoint
         .then((response) => response.json())
         .then((data) => {setBanner(data) ;
             setLoading(false)

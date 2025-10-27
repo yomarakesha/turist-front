@@ -1,32 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import i18n from "../i18n"; // ✅ i18n настройка
+import i18n from "../i18n"; // ✅ import your i18n setup
 import { useTranslation } from "react-i18next";
 import bgImage from "./../assets/bg1.jpg";
 
-export default function HotelInfo() {
+export default function ExcursionInfo() {
   const { id } = useParams();
   const [hotel, setHotel] = useState(null);
   const { t } = useTranslation();
-  const [language, setLanguage] = useState(i18n.language);
+  const language = i18n.language;
 
-  // меняем язык
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-    setLanguage(lang);
-  };
-
-  // загружаем данные отеля
   useEffect(() => {
-    fetch(`https://turist.onrender.com/api/hotels/${id}`)
+    fetch(`https://turist-1.onrender.com/hotels/${id}`)
       .then((res) => res.json())
       .then((data) => setHotel(data))
       .catch((err) => console.error("Error loading hotel:", err));
   }, [id]);
 
-  if (!hotel) return <p className="text-center mt-10">{t("loading")}</p>;
+  if (!hotel) return <p className="text-center">{t("loading")}</p>;
 
-  // выбираем данные в зависимости от языка
   const name = hotel[`name_${language}`] || hotel.name_ru;
   const description = hotel[`description_${language}`] || hotel.description_ru;
   const cityName = hotel.city ? hotel.city[`name_${language}`] : "";
@@ -40,45 +32,22 @@ export default function HotelInfo() {
         backgroundPosition: "center",
       }}
     >
-      <main className="max-w-3xl mx-auto p-6 bg-white/95 backdrop-blur rounded-lg shadow-sm mt-8">
-        {/* Название */}
+      <main className="max-w-3xl mx-auto p-6 bg-white/95 backdrop-blur rounded-lg shadow-sm">
         <h1 className="text-2xl font-semibold mb-1">{name}</h1>
         <p className="text-gray-500 text-sm mb-4">{cityName}</p>
 
-        {/* Фото */}
         <img
-          src={`https://turist.onrender.com/static/uploads/${hotel.image}`}
+          src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`}
           alt={name}
           className="w-full h-72 object-cover rounded-md mb-4"
         />
 
-        {/* Цена */}
         <div className="flex items-center justify-between text-sm text-gray-700 border-t border-b py-2 mb-4">
           <span>
-            {t("price")}: <strong>{hotel.price} тмт</strong>
+            {t("price")}: <strong>{t("callus")}</strong>
           </span>
-          {/* Переключатель языков */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => changeLanguage("en")}
-              className={`px-2 py-1 rounded ${
-                language === "en" ? "bg-orange-400 text-white" : "bg-gray-200"
-              }`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => changeLanguage("ru")}
-              className={`px-2 py-1 rounded ${
-                language === "ru" ? "bg-orange-400 text-white" : "bg-gray-200"
-              }`}
-            >
-              RU
-            </button>
-          </div>
         </div>
 
-        {/* Описание */}
         <p className="leading-relaxed text-gray-700 text-base">{description}</p>
       </main>
     </div>

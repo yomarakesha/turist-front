@@ -69,7 +69,7 @@ export default function ExcursionPage() {
           <div className="max-w-5xl mx-auto p-6 space-y-8">
             {displayedHotels.map(hotel => (
               <div key={hotel.id} className="flex flex-col sm:flex-row bg-white shadow-md rounded-lg overflow-hidden">
-                {hotel.image && <img src={`https://turist.onrender.com/static/uploads/${hotel.image}`} alt={hotel.name} className="w-full h-48 sm:h-60 sm:w-1/3 object-cover rounded-md" />}
+                {hotel.image && <img src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`} alt={hotel.name} className="w-full h-48 sm:h-60 sm:w-1/3 object-cover rounded-md" />}
                 <div className="p-4 sm:w-2/3 space-y-3">
                   <h2 className="text-lg font-bold text-blue-800">{highlightMatch(hotel[`name_${i18n.language}`] || hotel.name, query)}</h2>
                   <p className="text-sm text-gray-600">{hotel.city ? hotel.city[`name_${i18n.language}`] : ""}</p>

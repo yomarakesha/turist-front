@@ -22,7 +22,7 @@ export function useHotels() {
   };
 
   useEffect(() => {
-    fetch("https://turist.onrender.com/api/hotels")
+    fetch("https://turist-1.onrender.com/api/hotels")
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Fetch all hotels error:", err));
@@ -32,7 +32,7 @@ export function useHotels() {
     const delayDebounce = setTimeout(() => {
       if (query.trim() !== "") {
         setLoading(true);
-        fetch(`https://turist.onrender.com/api/hotels?query=${encodeURIComponent(query)}`)
+        fetch(`https://turist-1.onrender.com/api/hotels?query=${encodeURIComponent(query)}`)
           .then((res) => res.json())
           .then((data) => {
             setSearchResults(data);

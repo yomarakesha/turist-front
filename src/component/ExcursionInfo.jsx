@@ -11,13 +11,13 @@ export default function ExcursionInfo() {
   const language = i18n.language;
 
   useEffect(() => {
-    fetch(`https://turist.onrender.com/api/excursions/${id}`)
+    fetch(`https://turist-1.onrender.com/excursions/${id}`)
       .then((res) => res.json())
       .then((data) => setHotel(data))
       .catch((err) => console.error("Error loading hotel:", err));
   }, [id]);
 
-  if (!hotel) return <p className="text-center mt-10">{t("loading")}</p>;
+  if (!hotel) return <p className="text-center">{t("loading")}</p>;
 
   const name = hotel[`name_${language}`] || hotel.name_ru;
   const description = hotel[`description_${language}`] || hotel.description_ru;
@@ -32,19 +32,19 @@ export default function ExcursionInfo() {
         backgroundPosition: "center",
       }}
     >
-      <main className="max-w-3xl mx-auto p-6 bg-white/95 backdrop-blur rounded-lg shadow-sm mt-8">
+      <main className="max-w-3xl mx-auto p-6 bg-white/95 backdrop-blur rounded-lg shadow-sm">
         <h1 className="text-2xl font-semibold mb-1">{name}</h1>
         <p className="text-gray-500 text-sm mb-4">{cityName}</p>
 
         <img
-          src={`https://turist.onrender.com/static/uploads/${hotel.image}`}
+          src={`https://turist-1.onrender.com/static/uploads/${hotel.image}`}
           alt={name}
           className="w-full h-72 object-cover rounded-md mb-4"
         />
 
         <div className="flex items-center justify-between text-sm text-gray-700 border-t border-b py-2 mb-4">
           <span>
-            {t("price")}: <strong>{hotel.price} тмт</strong>
+            {t("price")}: <strong>{t("callus")}</strong>
           </span>
         </div>
 

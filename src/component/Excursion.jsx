@@ -107,7 +107,7 @@ export default function ExcursionWithNavbar() {
               const name = exc[`name_${language}`] || exc.name || "";
               const cityName = exc.city ? exc.city[`name_${language}`] : "";
               const imageSrc = exc.image
-                ? `https://turist.onrender.com/static/uploads/${exc.image}`
+                ? `https://turist-1.onrender.com/static/uploads/${exc.image}`
                 : "";
 
               return (

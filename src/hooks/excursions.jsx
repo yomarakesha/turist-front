@@ -22,7 +22,7 @@ export function useExcursions() {
 
   // Fetch excursions
   useEffect(() => {
-    fetch("https://turist.onrender.com/api/excursions")
+    fetch("https://turist-1.onrender.com/api/excursions")
       .then((res) => res.json())
       .then((data) => setExcursions(data))
       .catch((err) => console.error("Fetch excursions error:", err));
@@ -34,7 +34,7 @@ export function useExcursions() {
       if (query.trim() !== "") {
         setLoading(true);
         fetch(
-          `https://turist.onrender.com/api/excursions?query=${encodeURIComponent(query)}`
+          `https://turist-1.onrender.com/api/excursions?query=${encodeURIComponent(query)}`
         )
           .then((res) => res.json())
           .then((data) => {
